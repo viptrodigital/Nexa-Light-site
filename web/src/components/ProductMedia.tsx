@@ -26,23 +26,23 @@ export default function ProductMedia({ images, name }: { images: string[]; name:
     <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 relative z-[40]">
       {zoom && (
         <div
-          className="hidden lg:block absolute top-0 left-[calc(100%+20px)] w-[420px] h-[440px] bg-white z-50 rounded-[2rem] shadow-premium border border-black/10 pointer-events-none"
-          style={{ backgroundImage: `url(${images[index]})`, backgroundRepeat: "no-repeat", backgroundSize: "250%", backgroundPosition: `${zoom.px}% ${zoom.py}%` }}
+          className="hidden lg:block absolute top-0 left-[calc(100%+24px)] w-[520px] aspect-square bg-white z-50 rounded-2xl shadow-premium border border-black/10 pointer-events-none"
+          style={{ backgroundImage: `url(${images[index]})`, backgroundRepeat: "no-repeat", backgroundSize: "260%", backgroundPosition: `${zoom.px}% ${zoom.py}%` }}
           aria-hidden
         />
       )}
 
       {many && (
-        <div className="order-2 lg:order-1 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto hide-scrollbar pb-2 lg:pb-0 w-full lg:w-[80px] lg:h-[440px] shrink-0">
+        <div className="order-2 lg:order-1 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto hide-scrollbar pb-2 lg:pb-0 w-full lg:w-[76px] lg:max-h-[560px] shrink-0">
           {images.map((src, i) => (
             <button
               key={src + i}
               onClick={() => go(i)}
               onMouseEnter={() => go(i)}
               aria-label={`Show image ${i + 1}`}
-              className={`relative w-16 h-16 lg:w-20 lg:h-20 shrink-0 rounded-lg overflow-hidden border-2 transition-all duration-300 bg-white ${i === index ? "border-accent opacity-100" : "border-transparent opacity-60 hover:opacity-100 hover:border-accent/50"}`}
+              className={`relative w-16 h-16 lg:w-20 lg:h-20 shrink-0 rounded-xl overflow-hidden border transition-all duration-300 bg-white ${i === index ? "border-primary opacity-100" : "border-black/10 opacity-70 hover:opacity-100"}`}
             >
-              <Image src={src} alt="" fill sizes="80px" className="object-cover" />
+              <Image src={src} alt="" fill sizes="80px" className="object-contain p-1" />
             </button>
           ))}
         </div>
@@ -50,8 +50,7 @@ export default function ProductMedia({ images, name }: { images: string[]; name:
 
       <div
         ref={boxRef}
-        className="order-1 lg:order-2 w-full aspect-square lg:aspect-auto lg:h-[440px] relative overflow-hidden rounded-[2rem] lg:cursor-crosshair bg-skeleton"
-        style={{ maxWidth: 440 }}
+        className="order-1 lg:order-2 flex-1 w-full aspect-square relative overflow-hidden rounded-2xl lg:cursor-crosshair bg-white border border-black/5"
         onMouseMove={onMove}
         onMouseLeave={() => setZoom(null)}
       >
@@ -61,9 +60,9 @@ export default function ProductMedia({ images, name }: { images: string[]; name:
             src={src}
             alt={i === 0 ? name : `${name} view ${i + 1}`}
             fill
-            sizes="(min-width: 1024px) 440px, 100vw"
+            sizes="(min-width: 1024px) 45vw, 100vw"
             priority={i === 0}
-            className={`object-cover transition-opacity duration-700 ${i === index ? "opacity-100 z-10" : "opacity-0 z-0"}`}
+            className={`object-contain p-4 md:p-8 transition-opacity duration-700 ${i === index ? "opacity-100 z-10" : "opacity-0 z-0"}`}
           />
         ))}
         {zoom && (

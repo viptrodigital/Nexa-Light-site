@@ -23,7 +23,6 @@ export async function generateMetadata(): Promise<Metadata> {
       "LED Systems", "NexaLight", "Premium Lighting", "IES files", "Revit models",
     ],
     authors: [{ name: "NexaLight Studio" }],
-    icons: { icon: media("images/logo.png") },
     alternates: { canonical: "/" },
     openGraph: { title, description, type: "website", siteName: "NexaLight", url: "/", images: [media("assets/images/linear_nanox.png")] },
     twitter: { card: "summary_large_image", title, description, images: [media("assets/images/linear_nanox.png")] },
