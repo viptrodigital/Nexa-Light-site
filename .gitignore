@@ -7,3 +7,6 @@ uploads/
 
 # Deployment archives
 *.zip
+
+# Photos copied from the old site are part of the app.
+!web/public/uploads/
