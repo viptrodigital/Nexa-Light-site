@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import BlogBrowser from "@/components/BlogBrowser";
 import { getBlogArticles, getSeo } from "@/lib/data";
-import { SITE_URL, media } from "@/lib/site";
+import { SITE_URL, media, absoluteMedia } from "@/lib/site";
 
 export const revalidate = 60;
 
@@ -26,7 +26,7 @@ export default async function BlogPage() {
     "@type": "Blog",
     name: "NexaLight Studio Journal",
     url: `${SITE_URL}/blog`,
-    publisher: { "@type": "Organization", name: "NexaLight", logo: { "@type": "ImageObject", url: media("images/logo.png") } },
+    publisher: { "@type": "Organization", name: "NexaLight", logo: { "@type": "ImageObject", url: absoluteMedia("images/logo.png") } },
   };
 
   return (

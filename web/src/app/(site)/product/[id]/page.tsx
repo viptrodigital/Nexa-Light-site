@@ -7,7 +7,7 @@ import QuoteBox from "@/components/QuoteBox";
 import SectionTabs from "@/components/SectionTabs";
 import { Download } from "@/components/icons";
 import { getProduct, getProducts, getSettings } from "@/lib/data";
-import { SITE_URL, media, titleCase } from "@/lib/site";
+import { SITE_URL, media, titleCase, absoluteMedia } from "@/lib/site";
 import { divisionByCategory, divisionHref } from "@/lib/divisions";
 
 export const revalidate = 60;
@@ -85,7 +85,7 @@ export default async function ProductPage({ params }: Params) {
       name,
       sku: model,
       mpn: model,
-      image: images,
+      image: images.map((i) => absoluteMedia(i)),
       description: product.desc || product.seoDesc || `${name} architectural lighting by NexaLight.`,
       brand: { "@type": "Brand", name: "NexaLight" },
       category: [product.category, product.subcategory].filter(Boolean).join(" > "),

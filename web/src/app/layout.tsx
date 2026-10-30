@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { getSeo, getSettings } from "@/lib/data";
-import { SITE_URL, media } from "@/lib/site";
+import { SITE_URL, media, absoluteMedia } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], weight: ["200", "300", "400", "500", "600"], variable: "--font-inter", display: "swap" });
 
@@ -38,7 +38,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     "@type": "Organization",
     name: "NexaLight Architectural Lighting",
     url: SITE_URL,
-    logo: media("images/logo.png"),
+    logo: absoluteMedia("images/logo.png"),
     description:
       "Precision architectural, facade, fiber optic, and landscape lighting systems engineered for landmark developments.",
     address: { "@type": "PostalAddress", addressLocality: "Ganaur", addressRegion: "Haryana", addressCountry: "IN" },
