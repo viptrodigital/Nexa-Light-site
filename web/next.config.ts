@@ -24,16 +24,14 @@ const nextConfig: NextConfig = {
       ["Landscape Lighting", "landscape-lighting"],
       ["Indoor Architectural Lighting", "indoor-architectural-lighting"],
     ];
-    return divisions.map(([cat, slug]) => ({
+    // The previous admin panel stays available as a fallback (its scripts use relative paths).
+    const legacy = { source: "/admin-legacy", destination: "/admin-legacy/index.html", permanent: false };
+    return [legacy, ...divisions.map(([cat, slug]) => ({
       source: "/products",
       has: [{ type: "query" as const, key: "cat", value: cat }],
       destination: `/products/${slug}`,
       permanent: true,
-    }));
-  },
-  async rewrites() {
-    // The admin panel is the existing static app in public/admin.
-    return [{ source: "/admin", destination: "/admin/index.html" }];
+    }))];
   },
 };
 

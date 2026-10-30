@@ -10,10 +10,10 @@ export const revalidate = 60;
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeo("products");
   return {
-    title: seo.title || "Architectural Lighting Instruments & Products | NexaLight Collection",
+    title: seo.title || "Architectural & Outdoor LED Lighting Products | NexaLight",
     description:
       seo.description ||
-      "Browse IP68 submersible projectors, DMX facade RGBW linear profiles, trimless pinhole downlights, and museum track systems with downloadable IES & Revit files.",
+      "Browse NexaLight facade, fibre optic, landscape and indoor architectural lighting. Request project pricing, datasheets and IES files.",
     alternates: { canonical: "/products" },
   };
 }
@@ -21,37 +21,43 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ProductsPage() {
   const [all, categories] = await Promise.all([getProducts(), getCategories()]);
   // Only what the cards need goes to the browser (no descriptions/specs).
-  const products = all.map(({ id, name, category, subcategory, price, heroImg }) => ({ id, name, category, subcategory, price, heroImg }));
+  const products = all.map(({ id, name, category, subcategory, heroImg }) => ({ id, name, category, subcategory, heroImg }));
 
   return (
-    <div className="relative bg-background overflow-hidden bg-grid-premium min-h-screen">
-      <div className="floating-blob top-[-10%] right-[-10%]" />
-      <div className="floating-blob bottom-[-10%] left-[-10%]" style={{ animationDelay: "-5s", background: "radial-gradient(circle, rgba(0,0,0,0.03) 0%, transparent 70%)" }} />
-      <section className="pt-32 md:pt-40 pb-12 md:pb-16 px-6 md:px-12 relative z-10">
-        <div className="max-w-[100rem] mx-auto">
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent mb-5">Product Collection</p>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16 items-end mb-12">
-            <h1 className="lg:col-span-7 text-5xl md:text-7xl font-medium tracking-tighter text-primary leading-[0.95]">Architectural<br />lighting products.</h1>
-            <p className="lg:col-span-5 text-secondary font-light text-lg leading-relaxed">
-              {all.length} products across four divisions. Choose a division, or search and filter the complete range below.
-            </p>
+    <div className="bg-background min-h-screen">
+      <section className="pt-28 md:pt-32 pb-8 md:pb-10 px-6 md:px-12 border-b border-black/5">
+        <div className="max-w-[90rem] mx-auto">
+          <nav aria-label="Breadcrumb" className="mb-5 text-xs text-secondary">
+            <Link href="/" className="hover:text-primary">Home</Link>
+            <span className="mx-2 text-black/25">/</span>
+            <span className="text-primary font-medium" aria-current="page">Products</span>
+          </nav>
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-8">
+            <div>
+              <h1 className="text-3xl md:text-5xl font-medium tracking-tight text-primary mb-3">All Products</h1>
+              <p className="text-secondary text-sm md:text-base max-w-2xl">
+                {all.length} architectural lighting products across four divisions. Filter by category, compare specifications and request project pricing.
+              </p>
+            </div>
+            <a href="/catalogue" target="_blank" className="self-start lg:self-auto shrink-0 inline-flex items-center gap-2 h-11 px-5 rounded-lg border border-primary text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-white transition-colors">
+              Download catalogue
+            </a>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <div className="flex gap-3 overflow-x-auto hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-4">
             {DIVISIONS.map((d) => (
-              <Link key={d.slug} href={`/products/${d.slug}`} className="group p-5 md:p-6 rounded-2xl bg-white/80 border border-black/5 hover:border-primary transition-colors">
-                <span className="block text-[11px] font-bold text-accent mb-3">{d.number}</span>
-                <span className="block text-base md:text-lg font-medium text-primary leading-snug">{d.category}</span>
-                <span className="flex items-center justify-between mt-4 text-[10px] font-bold uppercase tracking-widest text-secondary">
-                  {all.filter((p) => p.category === d.category).length} products
-                  <span className="text-primary group-hover:translate-x-1 transition-transform">→</span>
+              <Link key={d.slug} href={`/products/${d.slug}`} className="group shrink-0 w-56 md:w-auto flex items-center justify-between gap-3 p-4 rounded-xl bg-white border border-black/[0.06] hover:border-primary transition-colors">
+                <span>
+                  <span className="block text-sm font-semibold text-primary leading-snug">{d.category}</span>
+                  <span className="block text-xs text-secondary mt-1">{all.filter((p) => p.category === d.category).length} products</span>
                 </span>
+                <span className="text-primary group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
-      <section className="pb-24 md:pb-48 px-6 md:px-12 relative z-10 border-t border-black/5 pt-12 md:pt-16">
-        {/* The full list is pre-rendered; the URL's ?cat= filter applies once the page loads. */}
+      <section className="py-10 md:py-14 px-6 md:px-12">
+        {/* The full list is pre-rendered; the URL's filters apply once the page loads. */}
         <Suspense fallback={<ProductBrowser products={products} categories={categories} />}>
           <ProductBrowserFromUrl products={products} categories={categories} />
         </Suspense>
