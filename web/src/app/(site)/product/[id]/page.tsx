@@ -53,7 +53,8 @@ export default async function ProductPage({ params }: Params) {
   const [all, settings] = await Promise.all([getProducts(), getSettings()]);
   const name = titleCase(product.name);
   const division = divisionByCategory(product.category);
-  const specs = Object.entries(product.specs ?? {}).filter(([, v]) => v);
+  // Placeholder values ("To be confirmed") are not shown to visitors.
+  const specs = Object.entries(product.specs ?? {}).filter(([, v]) => v && !/^(to be confirmed|tbc|n\/a|-)$/i.test(String(v).trim()));
   const model = specs.find(([k]) => /^model/i.test(k))?.[1] || product.id.replace(/^nex-light-/, "").toUpperCase();
   const used = new Set<string>();
   const highlights = HIGHLIGHTS.flatMap(({ label, match }) => {

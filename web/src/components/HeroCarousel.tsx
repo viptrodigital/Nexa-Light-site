@@ -31,7 +31,7 @@ export default function HeroCarousel() {
           <Image
             key={src}
             src={src}
-            alt="NexaLight architecture"
+            alt="Architectural facade lighting by NexaLight"
             fill
             sizes="100vw"
             priority={i === 0}
@@ -40,10 +40,13 @@ export default function HeroCarousel() {
         ))}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 md:via-black/20 to-transparent z-[2] pointer-events-none" />
         <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 pb-28 md:pb-20 md:p-20 max-w-[100rem] mx-auto w-full">
-          <h1 className="text-[14vw] md:text-[9.5rem] font-medium tracking-tighter leading-[1.0] mb-6 md:mb-8 text-white">
+          <h1 className="text-[11px] md:text-sm font-semibold uppercase tracking-[0.25em] text-white/80 mb-4 md:mb-6">
+            Architectural, Facade &amp; Landscape Lighting Manufacturer in India
+          </h1>
+          <p className="text-[14vw] md:text-[9.5rem] font-medium tracking-tighter leading-[1.0] mb-6 md:mb-8 text-white">
             <span className="block clip-text pb-1 md:pb-2"><span>Sculpting</span></span>
             <span className="block clip-text pb-2 md:pb-4 text-white/90"><span style={{ animationDelay: "80ms" }}>with light.</span></span>
-          </h1>
+          </p>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-10">
             <p className="text-base md:text-2xl text-white/80 font-light max-w-2xl leading-relaxed">
               Precision optical systems designed to command the night and seamlessly disappear by day.

@@ -6,9 +6,9 @@ import { SITE_URL, media, absoluteMedia } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], weight: ["200", "300", "400", "500", "600"], variable: "--font-inter", display: "swap" });
 
-const DEFAULT_TITLE = "NexaLight | Precision Architectural & Facade Lighting";
+const DEFAULT_TITLE = "NexaLight | Architectural, Facade & Landscape Lighting in India";
 const DEFAULT_DESC =
-  "NexaLight specializes in precision architectural, facade, fiber optic, and landscape lighting systems designed for landmark projects and modern spaces.";
+  "NexaLight makes architectural LED lighting in India: facade wall washers and flood lights, COB downlights and spots, bollards, garden and fibre optic lighting. Get project pricing.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeo("home");
@@ -18,13 +18,9 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(SITE_URL),
     title: { default: title, template: "%s" },
     description,
-    keywords: [
-      "Architectural Lighting", "Facade Lighting", "Fiber Optic Lighting", "Landscape Lighting", "Indoor Lighting",
-      "LED Systems", "NexaLight", "Premium Lighting", "IES files", "Revit models",
-    ],
     authors: [{ name: "NexaLight Studio" }],
     alternates: { canonical: "/" },
-    openGraph: { title, description, type: "website", siteName: "NexaLight", url: "/", images: [media("assets/images/linear_nanox.png")] },
+    openGraph: { title, description, type: "website", siteName: "NexaLight", locale: "en_IN", url: "/", images: [media("assets/images/linear_nanox.png")] },
     twitter: { card: "summary_large_image", title, description, images: [media("assets/images/linear_nanox.png")] },
   };
 }
@@ -36,21 +32,35 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "NexaLight Architectural Lighting",
+    "@id": `${SITE_URL}/#organization`,
+    name: "NexaLight",
+    alternateName: "NexaLight Architectural Lighting",
     url: SITE_URL,
     logo: absoluteMedia("images/logo.png"),
     description:
-      "Precision architectural, facade, fiber optic, and landscape lighting systems engineered for landmark developments.",
+      "Architectural LED lighting for facades, interiors, landscapes and fibre optic installations, supplied to projects across India.",
     address: { "@type": "PostalAddress", addressLocality: "Ganaur", addressRegion: "Haryana", addressCountry: "IN" },
-    contactPoint: { "@type": "ContactPoint", telephone: settings.phone, contactType: "customer support", email: settings.email },
+    areaServed: "IN",
+    contactPoint: { "@type": "ContactPoint", telephone: settings.phone, contactType: "sales", email: settings.email, areaServed: "IN", availableLanguage: ["en", "hi"] },
     sameAs: ["https://www.linkedin.com/company/nexalight", "https://www.instagram.com/nexalight"],
   };
 
+  const siteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    name: "NexaLight",
+    url: SITE_URL,
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    inLanguage: "en-IN",
+    potentialAction: { "@type": "SearchAction", target: `${SITE_URL}/products?q={search_term_string}`, "query-input": "required name=search_term_string" },
+  };
+
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en-IN" className={inter.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([orgSchema, siteSchema]) }} />
       </head>
       <body className="font-sans selection:bg-accent selection:text-white relative">{children}</body>
     </html>

@@ -29,9 +29,10 @@ export default async function ContactPage() {
       <div className="floating-blob top-[-10%] right-[-10%]" />
       <div className="max-w-[100rem] mx-auto w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
         <div className="lg:col-span-5 flex flex-col justify-center">
-          <h1 className="text-5xl md:text-[7rem] font-medium tracking-tighter mb-6 text-primary leading-none">
+          <h1 className="text-[11px] font-bold uppercase tracking-[0.3em] text-secondary mb-5">Contact NexaLight · Lighting Enquiries &amp; Project Pricing</h1>
+          <p className="text-5xl md:text-[7rem] font-medium tracking-tighter mb-6 text-primary leading-none">
             <span className="block clip-text pb-2 md:pb-4"><span>Let&apos;s Talk.</span></span>
-          </h1>
+          </p>
           <p className="text-lg md:text-xl text-secondary mb-12 font-light leading-relaxed anim-fade-up">
             Whether you are conceptualizing a masterplan or finalizing specifications, our studio is ready to assist.
           </p>

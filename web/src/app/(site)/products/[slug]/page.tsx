@@ -4,8 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import DivisionProducts from "@/components/DivisionProducts";
 import { getProducts, getSeo } from "@/lib/data";
-import { DIVISIONS, divisionBySlug } from "@/lib/divisions";
-import { SITE_URL, media } from "@/lib/site";
+import { DIVISIONS, DIVISION_FAQS, divisionBySlug } from "@/lib/divisions";
+import { SITE_URL, media, titleCase } from "@/lib/site";
 
 export const revalidate = 60;
 export const dynamicParams = false;
@@ -40,20 +40,38 @@ export default async function DivisionPage({ params }: Params) {
   const others = DIVISIONS.filter((o) => o.slug !== d.slug);
   const cover = (category: string) => all.find((p) => p.category === category && p.heroImg)?.heroImg;
 
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: d.category,
-    description: d.intro,
-    url: `${SITE_URL}/products/${d.slug}`,
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Products", item: `${SITE_URL}/products` },
-        { "@type": "ListItem", position: 2, name: d.category, item: `${SITE_URL}/products/${d.slug}` },
-      ],
+  const faqs = DIVISION_FAQS[d.slug] ?? [];
+  const schema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: d.category,
+      description: d.intro,
+      url: `${SITE_URL}/products/${d.slug}`,
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Products", item: `${SITE_URL}/products` },
+          { "@type": "ListItem", position: 3, name: d.category, item: `${SITE_URL}/products/${d.slug}` },
+        ],
+      },
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: products.length,
+        itemListElement: products.slice(0, 50).map((p, i) => ({ "@type": "ListItem", position: i + 1, name: titleCase(p.name), url: `${SITE_URL}/product/${p.id}` })),
+      },
     },
-  };
+    ...(faqs.length
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+          },
+        ]
+      : []),
+  ];
 
   return (
     <>
@@ -63,6 +81,8 @@ export default async function DivisionPage({ params }: Params) {
       <section className="pt-28 md:pt-32 pb-16 md:pb-24 px-6 md:px-12 bg-background">
         <div className="max-w-[100rem] mx-auto">
           <nav aria-label="Breadcrumb" className="text-[11px] font-semibold uppercase tracking-widest text-secondary mb-10 md:mb-14">
+            <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+            <span className="mx-3 text-black/20">/</span>
             <Link href="/products" className="hover:text-primary transition-colors">Products</Link>
             <span className="mx-3 text-black/20">/</span>
             <span className="text-primary">{d.category}</span>
@@ -71,7 +91,7 @@ export default async function DivisionPage({ params }: Params) {
             <div className="lg:col-span-6">
               <p className="text-accent text-xs font-bold uppercase tracking-[0.3em] mb-6">Division {d.number}</p>
               <h1 className="text-5xl md:text-7xl xl:text-8xl font-medium tracking-tighter text-primary leading-[0.95] mb-8">
-                <span className="block clip-text pb-2"><span>{d.category.replace(" Lighting", "")}</span></span>
+                <span className="block clip-text pb-2"><span>{d.category.replace(" Lighting", "")}</span></span>{" "}
                 <span className="block clip-text pb-2 text-secondary/70 font-light"><span style={{ animationDelay: "80ms" }}>Lighting.</span></span>
               </h1>
               <p className="text-lg md:text-xl text-secondary font-light leading-relaxed max-w-xl mb-10">{d.intro}</p>
@@ -154,6 +174,28 @@ export default async function DivisionPage({ params }: Params) {
           )}
         </div>
       </section>
+
+      {faqs.length > 0 && (
+        <section className="py-20 md:py-28 px-6 md:px-12 bg-white border-t border-black/5">
+          <div className="max-w-[100rem] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-4">
+              <h2 className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent mb-6">Questions</h2>
+              <p className="text-3xl md:text-4xl font-medium tracking-tight text-primary leading-tight">{d.short} lighting, answered.</p>
+            </div>
+            <div className="lg:col-span-8 divide-y divide-black/10 border-y border-black/10">
+              {faqs.map((f) => (
+                <details key={f.q} className="group py-5">
+                  <summary className="flex items-center justify-between gap-6 cursor-pointer list-none text-lg font-medium text-primary">
+                    <h3>{f.q}</h3>
+                    <span className="text-2xl text-secondary transition-transform group-open:rotate-45">+</span>
+                  </summary>
+                  <p className="mt-3 text-secondary font-light leading-relaxed max-w-3xl">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Other divisions */}
       <section className="py-20 md:py-28 px-6 md:px-12 bg-white border-t border-black/5">

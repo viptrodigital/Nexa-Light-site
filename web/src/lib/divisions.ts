@@ -80,3 +80,80 @@ export const divisionHref = (category: string) => {
   const d = divisionByCategory(category);
   return d ? `/products/${d.slug}` : `/products?cat=${encodeURIComponent(category)}`;
 };
+
+// Questions buyers and specifiers ask most often, shown on each division page
+// (and marked up as FAQ structured data).
+export const DIVISION_FAQS: Record<string, { q: string; a: string }[]> = {
+  "facade-lighting": [
+    {
+      q: "What is the difference between a wall washer and a wall grazer?",
+      a: "A wall washer sits a little away from the wall and spreads light evenly across a flat surface. A grazer is mounted close to the wall with a narrow beam, so light skims the surface and brings out the texture of stone, brick or cladding. Many facades use both.",
+    },
+    {
+      q: "Can facade lights change colour?",
+      a: "Yes. Most of our facade fixtures are available in single colour (warm or neutral white), RGB or RGBW. Colour-changing versions are usually controlled over DMX512, and some can also be dimmed over DALI.",
+    },
+    {
+      q: "What IP rating should an outdoor facade light have?",
+      a: "For fixtures exposed to rain we recommend IP65 or higher. Fixtures that sit in the ground or may be splashed or submerged should be IP67 or IP68.",
+    },
+    {
+      q: "Do you help with lighting layouts for a building?",
+      a: "Yes. Share your elevations or photos of the building and our team will suggest fixture positions, beam angles and wattages, and share the datasheets for your consultant or contractor.",
+    },
+  ],
+  "fiber-optic-lighting": [
+    {
+      q: "How does a fibre optic star ceiling work?",
+      a: "A light engine (illuminator) sends light through hundreds of thin optical fibres. The fibre ends are pushed through the ceiling board to create the stars. The fibres carry only light, so there is no heat or electricity at the ceiling.",
+    },
+    {
+      q: "Is fibre optic lighting safe for swimming pools?",
+      a: "Yes, that is one of its main advantages. The illuminator stays in a dry, accessible place and only the fibre ends go into the pool area, so no electrical parts are in or near the water.",
+    },
+    {
+      q: "Can I get a twinkle or colour-changing effect?",
+      a: "Yes. Twinkle wheels, colour change and dimming are handled at the light source, so the effect can be changed later without touching the ceiling.",
+    },
+    {
+      q: "How many fibres do I need for my ceiling?",
+      a: "It depends on the ceiling area and how dense you want the stars. Send us the room size and we will recommend the number of fibres, their diameters and a suitable light source.",
+    },
+  ],
+  "landscape-lighting": [
+    {
+      q: "How far apart should bollard lights be placed along a path?",
+      a: "As a rule of thumb, bollards are spaced roughly 3 to 5 metres apart, depending on their height, light output and how evenly you want the path lit. We can suggest spacing once we know the path width and fixture you prefer.",
+    },
+    {
+      q: "What IP rating do garden and landscape lights need?",
+      a: "Lights above ground should be at least IP65. Spike lights in planted beds and anything near water should be IP67, and lights that sit underwater need IP68.",
+    },
+    {
+      q: "What colour temperature works best for gardens?",
+      a: "Warm white (around 2700K to 3000K) is the most popular choice for gardens and homes because it looks soft and natural. Neutral white (4000K) is often used for public spaces and car parks.",
+    },
+    {
+      q: "Do you supply post top and pole lights for campuses and townships?",
+      a: "Yes. Our range includes post top lanterns, decorative pole lights and architectural pole lights in several wattages, suitable for campuses, resorts, parks and residential townships.",
+    },
+  ],
+  "indoor-architectural-lighting": [
+    {
+      q: "What is the difference between a COB downlight and an SMD downlight?",
+      a: "A COB downlight uses a single concentrated LED chip behind a reflector or lens, which gives a punchy, controlled beam that suits accent and feature lighting. An SMD downlight spreads many small LEDs across a diffuser for softer, wider general lighting.",
+    },
+    {
+      q: "What CRI should I choose for interiors?",
+      a: "CRI 90 or above is recommended for homes, hotels and retail because colours, skin tones and finishes look natural. For galleries, jewellery and premium retail, CRI 95 to 97 is a better choice.",
+    },
+    {
+      q: "Which beam angle is right for a spotlight?",
+      a: "Narrow beams (around 15° to 24°) highlight artwork, products and architectural details. Wider beams (36° to 60°) are better for general lighting of rooms and corridors.",
+    },
+    {
+      q: "How do I choose the right cut-out size?",
+      a: "Each product page lists the cut-out where it is known, for example 75 mm. Choose the fixture that matches your false-ceiling opening, or ask us and we will suggest options for your existing cut-outs.",
+    },
+  ],
+};
