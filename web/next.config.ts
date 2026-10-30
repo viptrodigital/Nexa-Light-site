@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Pages refresh every 60s; this caps how long a CDN may keep serving an old copy.
+  expireTime: 120,
   // Shared hosting limits processes: build with a single worker.
   experimental: { cpus: 1 },
   images: {

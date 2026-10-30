@@ -22,16 +22,33 @@ export async function list<T>(collection: string): Promise<Row<T>[]> {
   return check(await supabase.from(TABLE).select("id, data").eq("collection", collection).order("id")) as Row<T>[];
 }
 
+// Asks the website to rebuild its pages now, so changes show up immediately.
+async function refreshSite() {
+  try {
+    const { data } = await supabase.auth.getSession();
+    await fetch("/api/revalidate", { method: "POST", headers: { Authorization: `Bearer ${data.session?.access_token ?? ""}` } });
+  } catch {
+    // The site still refreshes on its own within a couple of minutes.
+  }
+}
+
 export async function save<T>(collection: string, id: string, data: T) {
   check(await supabase.from(TABLE).upsert({ collection, id, data }));
+  await refreshSite();
 }
 
 export async function saveMany<T>(collection: string, rows: Row<T>[]) {
-  if (rows.length) check(await supabase.from(TABLE).upsert(rows.map((r) => ({ collection, id: r.id, data: r.data }))));
+  if (!rows.length) return;
+  check(await supabase.from(TABLE).upsert(rows.map((r) => ({ collection, id: r.id, data: r.data }))));
+  await refreshSite();
 }
 
+// Fails loudly when nothing was deleted (e.g. no permission), instead of looking successful.
 export async function remove(collection: string, ids: string[]) {
-  if (ids.length) check(await supabase.from(TABLE).delete().eq("collection", collection).in("id", ids));
+  if (!ids.length) return;
+  const deleted = check(await supabase.from(TABLE).delete().eq("collection", collection).in("id", ids).select("id")) as { id: string }[];
+  if (deleted.length < ids.length) throw new Error(`Only ${deleted.length} of ${ids.length} deleted. Check that you are signed in as an admin.`);
+  await refreshSite();
 }
 
 export async function isAdmin() {
