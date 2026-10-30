@@ -14,6 +14,9 @@ export function media(src?: string | null): string {
   return `${MEDIA_BASE}/${src.replace(/^\/+/, "")}`;
 }
 
+// Stored names are sometimes lowercase ("bollard light series").
+export const titleCase = (s: string) => s.replace(/\s+/g, " ").trim().replace(/(^|\s)([a-z])/g, (_, sp: string, c: string) => sp + c.toUpperCase());
+
 export const telHref = (phone: string) => `tel:${phone.replace(/[^+\d]/g, "")}`;
 
 export const NAV_LINKS = [

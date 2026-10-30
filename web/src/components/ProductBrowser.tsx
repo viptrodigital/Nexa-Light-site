@@ -8,6 +8,7 @@ import { ProductCard } from "./cards";
 import { ChevronDown } from "./icons";
 
 const ALL = "All Products";
+const PAGE = 24;
 
 type Props = { products: Product[]; categories: Categories };
 
@@ -21,10 +22,12 @@ export function ProductBrowser({ products, categories, initialCat = ALL, initial
   const [cat, setCat] = useState(initialCat);
   const [sub, setSub] = useState(initialSub);
   const [query, setQuery] = useState("");
+  const [limit, setLimit] = useState(PAGE);
 
   const select = (nextCat: string, nextSub = "") => {
     setCat(nextCat);
     setSub(nextSub);
+    setLimit(PAGE);
     const url = new URL(window.location.href);
     if (nextCat === ALL) url.searchParams.delete("cat");
     else url.searchParams.set("cat", nextCat);
@@ -54,8 +57,11 @@ export function ProductBrowser({ products, categories, initialCat = ALL, initial
           <input
             type="search"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search..."
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setLimit(PAGE);
+            }}
+            placeholder="Search products..."
             aria-label="Search products"
             className="premium-input !text-xs !bg-transparent !px-0 !pt-0 !pb-4 mb-8"
           />
@@ -103,8 +109,11 @@ export function ProductBrowser({ products, categories, initialCat = ALL, initial
         <input
           type="search"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search instruments..."
+          onChange={(e) => {
+              setQuery(e.target.value);
+              setLimit(PAGE);
+            }}
+          placeholder="Search products..."
           aria-label="Search products"
           className="premium-input text-sm !bg-transparent border !border-black/20 !rounded-lg !p-3 mb-4"
         />
@@ -117,16 +126,26 @@ export function ProductBrowser({ products, categories, initialCat = ALL, initial
         </div>
       </div>
 
-      <div className={`md:col-span-8 lg:col-span-9 2xl:col-span-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 ${products.length > 6 ? "2xl:grid-cols-5" : ""} gap-x-6 md:gap-x-8 gap-y-12 md:gap-y-20 content-start`}>
-        {visible.map((p, i) => (
-          <ProductCard key={p.id} p={p} index={i} />
+      <div className="md:col-span-8 lg:col-span-9 2xl:col-span-10">
+      <div className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-5 content-start">
+        {visible.slice(0, limit).map((p) => (
+          <ProductCard key={p.id} p={p} />
         ))}
         {visible.length === 0 && (
           <div className="col-span-full py-32 text-center text-secondary">
-            <p className="text-xl font-light">No optical instruments found matching your criteria.</p>
-            <button onClick={reset} className="mt-4 text-accent text-sm font-medium border-b border-accent">Clear all filters</button>
+            <p className="text-xl font-light">No products found matching your search.</p>
+            <button onClick={reset} className="mt-4 text-primary text-sm font-medium border-b border-primary">Clear all filters</button>
           </div>
         )}
+      </div>
+      {visible.length > limit && (
+        <div className="mt-10 flex flex-col items-center gap-3">
+          <p className="text-xs text-secondary">Showing {limit} of {visible.length}</p>
+          <button onClick={() => setLimit((n) => n + PAGE)} className="px-8 py-3 rounded-full border border-primary text-xs font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-white transition-colors">
+            Load more
+          </button>
+        </div>
+      )}
       </div>
     </div>
   );

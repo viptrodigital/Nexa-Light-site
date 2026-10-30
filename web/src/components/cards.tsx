@@ -1,32 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { BlogArticle, Product } from "@/lib/data";
-import { media } from "@/lib/site";
+import { media, titleCase } from "@/lib/site";
 
-export function ProductCard({ p, index = 0 }: { p: Product; index?: number }) {
+export function ProductCard({ p }: { p: Pick<Product, "id" | "name" | "category" | "subcategory" | "heroImg"> }) {
+  const name = titleCase(p.name);
   return (
-    <Link href={`/product/${p.id}`} className="block group anim-fade-up" style={{ transitionDelay: `${Math.min(index, 8) * 50}ms` }}>
-      <div className="aspect-square overflow-hidden rounded-[1.5rem] md:rounded-[2rem] mb-5 shadow-premium transition-all duration-700 group-hover:shadow-premium-dark group-hover:-translate-y-2 relative border border-black/[0.03] bg-skeleton">
+    <Link href={`/product/${p.id}`} className="group flex flex-col h-full rounded-2xl bg-white border border-black/[0.06] overflow-hidden hover:border-black/20 hover:shadow-premium-hover transition-all duration-300">
+      <div className="aspect-square relative bg-white">
         <Image
           src={media(p.heroImg)}
-          alt={p.name}
+          alt={name}
           fill
-          sizes="(min-width: 1536px) 18vw, (min-width: 1280px) 22vw, (min-width: 1024px) 28vw, (min-width: 640px) 45vw, 90vw"
-          className="object-cover transition-transform duration-1000 group-hover:scale-110"
+          sizes="(min-width: 1280px) 22vw, (min-width: 1024px) 30vw, 50vw"
+          className="object-contain p-3 md:p-5 transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
-        <div className="absolute top-5 left-5">
-          <span className="bg-white/95 text-[8px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full text-primary shadow-sm border border-black/5">
-            {p.subcategory || p.category}
-          </span>
-        </div>
       </div>
-      <div className="px-1">
-        <h2 className="text-lg md:text-xl font-medium tracking-tight mb-1 text-primary group-hover:text-accent transition-colors">{p.name}</h2>
-        <div className="flex justify-between items-center text-[10px] mt-3 pt-3 border-t border-black/5">
-          <p className="text-secondary font-medium uppercase tracking-widest">{p.price || "Inquire"}</p>
-          <span className="text-accent opacity-0 group-hover:opacity-100 transition-opacity font-semibold uppercase tracking-widest">Details →</span>
-        </div>
+      <div className="flex flex-col flex-1 p-3 md:p-4 border-t border-black/5">
+        <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-secondary mb-1 truncate">{p.subcategory || p.category}</p>
+        <h2 className="text-sm md:text-base font-medium text-primary leading-snug line-clamp-2 flex-1">{name}</h2>
+        <span className="mt-3 text-[10px] md:text-[11px] font-semibold uppercase tracking-widest text-primary">
+          View details <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
+        </span>
       </div>
     </Link>
   );

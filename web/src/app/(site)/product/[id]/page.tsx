@@ -7,7 +7,7 @@ import QuoteBox from "@/components/QuoteBox";
 import SectionTabs from "@/components/SectionTabs";
 import { Download } from "@/components/icons";
 import { getProduct, getProducts, getSettings } from "@/lib/data";
-import { SITE_URL, media } from "@/lib/site";
+import { SITE_URL, media, titleCase } from "@/lib/site";
 import { divisionByCategory, divisionHref } from "@/lib/divisions";
 
 export const revalidate = 60;
@@ -26,8 +26,6 @@ const HIGHLIGHTS: { label: string; match: RegExp }[] = [
   { label: "Lifespan", match: /life/i },
 ];
 
-// Stored names are sometimes lowercase ("bollard light series").
-const titleCase = (s: string) => s.replace(/\s+/g, " ").trim().replace(/(^|\s)([a-z])/g, (_, sp, c) => sp + c.toUpperCase());
 
 export async function generateStaticParams() {
   return (await getProducts()).map((p) => ({ id: p.id }));

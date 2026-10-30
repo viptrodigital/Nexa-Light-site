@@ -3,7 +3,7 @@ import Link from "next/link";
 import HeroCarousel from "@/components/HeroCarousel";
 import InstrumentsScroller from "@/components/InstrumentsScroller";
 import GalleryGrid from "@/components/GalleryGrid";
-import { BlogCard } from "@/components/cards";
+import { BlogCard, ProductCard } from "@/components/cards";
 import { getBlogArticles, getGallery, getProducts } from "@/lib/data";
 import { DIVISIONS } from "@/lib/divisions";
 import { media } from "@/lib/site";
@@ -59,17 +59,10 @@ export default async function HomePage() {
 
       <section className="pt-20 pb-16 md:pt-40 md:pb-20 px-0 md:px-12 bg-background relative z-10 overflow-hidden border-b border-black/5 bg-grid-premium">
         <div className="hero-bg-text" style={{ top: "20%", fontSize: "20vw" }}>PRECISION</div>
-        <InstrumentsScroller header={<h2 className="text-4xl md:text-[5rem] font-medium tracking-tighter text-primary leading-none">Optical<br />Instruments.</h2>}>
+        <InstrumentsScroller header={<h2 className="text-4xl md:text-[5rem] font-medium tracking-tighter text-primary leading-none">Featured<br />Products.</h2>}>
           {products.slice(0, 8).map((p) => (
-            <div key={p.id} className="min-w-[75vw] md:min-w-[420px] snap-start">
-              <Link href={`/product/${p.id}`} className="block group" draggable={false}>
-                <div className="aspect-square overflow-hidden rounded-[1.5rem] md:rounded-[2rem] mb-4 md:mb-6 shadow-premium transition-all duration-700 group-hover:shadow-premium-dark relative bg-skeleton">
-                  <Image src={media(p.heroImg)} alt={p.name} fill sizes="(min-width: 768px) 420px, 75vw" className="object-cover transition-transform duration-1000 scale-105 group-hover:scale-100" />
-                  <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-medium tracking-tight mb-1 md:mb-2 text-primary group-hover:text-accent transition-colors">{p.name}</h3>
-                <p className="text-secondary font-light text-xs md:text-sm uppercase tracking-widest">{p.category}</p>
-              </Link>
+            <div key={p.id} className="min-w-[62vw] sm:min-w-[300px] md:min-w-[340px] snap-start">
+              <ProductCard p={p} />
             </div>
           ))}
         </InstrumentsScroller>
