@@ -33,7 +33,7 @@ export default function ProductMedia({ images, name }: { images: string[]; name:
       )}
 
       {many && (
-        <div className="order-2 lg:order-1 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto hide-scrollbar pb-2 lg:pb-0 w-full lg:w-[76px] lg:max-h-[560px] shrink-0">
+        <div className="order-2 lg:order-1 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto hide-scrollbar pb-2 lg:pb-0 w-full lg:w-[88px] lg:max-h-[560px] lg:p-1 shrink-0">
           {images.map((src, i) => (
             <button
               key={src + i}
