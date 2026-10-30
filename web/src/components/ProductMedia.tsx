@@ -68,7 +68,7 @@ export default function ProductMedia({ images, name }: { images: string[]; name:
         {zoom && (
           <div
             className="hidden lg:block absolute pointer-events-none z-30"
-            style={{ left: zoom.x, top: zoom.y, width: LENS, height: LENS, backgroundColor: "rgba(0,160,255,0.15)", border: "1px solid rgba(0,160,255,0.4)" }}
+            style={{ left: zoom.x, top: zoom.y, width: LENS, height: LENS, backgroundColor: "rgba(0,0,0,0.06)", border: "1px solid rgba(0,0,0,0.35)" }}
           />
         )}
         {many && (

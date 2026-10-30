@@ -252,7 +252,7 @@ export default async function ProductPage({ params }: Params) {
                   <p className="text-2xl font-medium text-primary">{price ?? "Price on request"}</p>
                 </div>
                 <p className="text-xs text-secondary">
-                  <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-2 align-middle" />
+                  <span className="inline-block w-2 h-2 rounded-full bg-primary mr-2 align-middle" />
                   Available for project orders
                 </p>
               </div>

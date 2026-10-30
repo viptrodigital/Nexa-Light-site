@@ -51,7 +51,7 @@ export default async function BlogPage() {
               <div className="lg:col-span-7 relative min-h-[350px] lg:min-h-[480px] overflow-hidden bg-skeleton">
                 <Image src={media(featured.image)} alt={featured.title} fill priority sizes="(min-width: 1024px) 58vw, 100vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute top-6 left-6 z-10">
-                  <span className="px-4 py-1.5 rounded-full bg-primary/90 text-[10px] font-bold uppercase tracking-widest text-accent border border-white/10">
+                  <span className="px-4 py-1.5 rounded-full bg-primary/90 text-[10px] font-bold uppercase tracking-widest text-white border border-white/10">
                     Featured Essay • {featured.category}
                   </span>
                 </div>

@@ -14,7 +14,7 @@ export function FloatingActions({ whatsapp }: { whatsapp: string }) {
         href="/catalogue"
         target="_blank"
         aria-label="Download 2026 Master Catalogue (PDF)"
-        className="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center bg-primary text-accent hover:bg-accent hover:text-primary transition-all shadow-xl"
+        className="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center bg-primary text-white hover:bg-white hover:text-primary transition-all shadow-xl"
       >
         <Download />
       </a>

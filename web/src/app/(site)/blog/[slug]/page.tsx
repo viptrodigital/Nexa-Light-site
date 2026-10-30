@@ -90,7 +90,7 @@ export default async function ArticlePage({ params }: Params) {
               href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_URL}/blog/${art.slug}`)}`}
               target="_blank"
               rel="noopener"
-              className="px-5 py-2.5 rounded-full bg-surface text-xs font-semibold text-secondary hover:bg-[#0077b5] hover:text-white transition-all"
+              className="px-5 py-2.5 rounded-full bg-surface text-xs font-semibold text-secondary hover:bg-primary hover:text-white transition-all"
             >
               Share on LinkedIn
             </a>

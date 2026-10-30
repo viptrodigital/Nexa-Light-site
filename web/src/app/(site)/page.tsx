@@ -103,7 +103,7 @@ export default async function HomePage() {
             <div className="aspect-[16/10] rounded-[3rem] overflow-hidden shadow-premium-dark bg-surface relative">
               <Image src={media("images/lang.png")} alt="Architectural lighting by NexaLight" fill sizes="(min-width: 1024px) 58vw, 100vw" className="object-cover" />
             </div>
-            <div className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.25),transparent_70%)]" />
+            <div className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-[radial-gradient(circle,rgba(0,0,0,0.08),transparent_70%)]" />
           </div>
         </div>
       </section>
@@ -153,7 +153,7 @@ export default async function HomePage() {
 
       <section className="py-20 px-6 md:px-12 bg-primary text-white relative overflow-hidden">
         <div className="max-w-[100rem] mx-auto rounded-[3rem] bg-gradient-to-r from-[#222] via-[#1a1a1a] to-primary border border-white/10 p-10 md:p-16 shadow-premium-dark flex flex-col lg:flex-row items-center justify-between gap-10 relative overflow-hidden group">
-          <div className="absolute -right-24 -bottom-24 w-96 h-96 rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(212,175,55,0.15),transparent_70%)]" />
+          <div className="absolute -right-24 -bottom-24 w-96 h-96 rounded-full pointer-events-none bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent_70%)]" />
           <div className="max-w-2xl relative z-10">
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-accent/20 border border-accent/40 text-accent text-[10px] font-bold uppercase tracking-widest mb-4">
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />

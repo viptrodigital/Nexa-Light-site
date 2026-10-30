@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ContactPage() {
   const s = await getSettings();
   const cards = [
-    { href: s.whatsapp, external: true, title: "WhatsApp", value: s.phone, text: "Instant specification help & support", icon: <WhatsApp className="sm:w-7 sm:h-7" />, iconClass: "bg-[#25d366]/10 text-[#25d366] group-hover:bg-white/10" },
+    { href: s.whatsapp, external: true, title: "WhatsApp", value: s.phone, text: "Instant specification help & support", icon: <WhatsApp className="sm:w-7 sm:h-7" />, iconClass: "bg-primary/5 text-primary group-hover:bg-white/10 group-hover:text-white" },
     { href: telHref(s.phone), title: "Call", value: s.phone, text: "Speak directly with our team", icon: <Phone />, iconClass: "bg-primary/5 text-primary group-hover:bg-white/10 group-hover:text-white" },
     { href: `mailto:${s.email}`, title: "Email", value: s.email, text: "Send drawings, photometrics & inquiries", icon: <Mail />, iconClass: "bg-primary/5 text-primary group-hover:bg-white/10 group-hover:text-white" },
   ];

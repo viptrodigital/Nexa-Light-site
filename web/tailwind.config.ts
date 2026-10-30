@@ -9,7 +9,7 @@ const config: Config = {
         background: "#f8f8f6",
         primary: "#0a0a0a",
         secondary: "#555555",
-        accent: "#d4af37",
+        accent: "#777777",
         surface: "#ebebe6",
         surfaceLight: "#f0f0eb",
         skeleton: "#e4e4e0",
