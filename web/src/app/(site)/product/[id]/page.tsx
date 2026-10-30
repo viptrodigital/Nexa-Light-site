@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductMedia from "@/components/ProductMedia";
 import QuoteBox from "@/components/QuoteBox";
+import SectionTabs from "@/components/SectionTabs";
 import { Download } from "@/components/icons";
 import { getProduct, getProducts, getSettings } from "@/lib/data";
 import { SITE_URL, media } from "@/lib/site";
@@ -100,12 +101,90 @@ export default async function ProductPage({ params }: Params) {
     },
   ];
 
-  const sections = [
-    { id: "overview", label: "Overview", show: Boolean(product.desc || features.length) },
-    { id: "specifications", label: "Specifications", show: specs.length > 0 },
-    { id: "applications", label: "Applications", show: Boolean(division) },
-    { id: "downloads", label: "Downloads", show: true },
-  ].filter((s) => s.show);
+  const downloads = [
+    ["Product datasheet", "PDF"],
+    ["Photometric file", "IES / LDT"],
+    ["Installation guide", "PDF"],
+  ];
+  const tabs = [
+    (product.desc || features.length > 0) && {
+      id: "overview",
+      label: "Overview",
+      content: (
+        <div className="max-w-5xl">
+          {product.desc && <p className="text-base md:text-lg text-secondary font-light leading-relaxed whitespace-pre-line mb-8">{product.desc}</p>}
+          {features.length > 0 && (
+            <>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-4">Key features</h3>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                {features.map((f) => (
+                  <li key={f} className="flex gap-3 text-sm text-secondary leading-relaxed">
+                    <svg className="w-4 h-4 mt-0.5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+                      <path d="M5 12l5 5L20 7" />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      ),
+    },
+    specs.length > 0 && {
+      id: "specifications",
+      label: "Specifications",
+      content: (
+        <div className="max-w-5xl">
+          <div className="rounded-2xl border border-black/10 overflow-hidden">
+            <table className="w-full text-sm">
+              <tbody>
+                {specs.map(([k, v], i) => (
+                  <tr key={k} className={i % 2 ? "bg-white" : "bg-surfaceLight/60"}>
+                    <th scope="row" className="text-left font-medium text-secondary px-5 py-3 w-2/5 align-top">{k}</th>
+                    <td className="px-5 py-3 text-primary">{v}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-secondary mt-4">Values are nominal. Custom variants are confirmed on the quotation.</p>
+        </div>
+      ),
+    },
+    division && {
+      id: "applications",
+      label: "Applications",
+      content: (
+        <div className="flex flex-wrap gap-3 max-w-5xl">
+          {division.applications.map((a) => (
+            <span key={a} className="px-4 py-2 rounded-full border border-black/10 text-sm text-primary">{a}</span>
+          ))}
+        </div>
+      ),
+    },
+    {
+      id: "downloads",
+      label: "Downloads",
+      content: (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-5xl">
+          {downloads.map(([t, f]) => (
+            <a
+              key={t}
+              href={`mailto:${settings.email}?subject=${encodeURIComponent(`${t} request: ${name} (${model})`)}`}
+              className="group flex items-center justify-between gap-4 rounded-xl border border-black/10 p-4 hover:border-primary transition-colors"
+            >
+              <span>
+                <span className="block text-sm font-medium text-primary">{t}</span>
+                <span className="block text-[11px] text-secondary">{f} · on request</span>
+              </span>
+              <Download size={18} className="text-secondary group-hover:text-primary" />
+            </a>
+          ))}
+        </div>
+      ),
+    },
+  ].filter((t) => !!t);
 
   return (
     <>
@@ -198,98 +277,7 @@ export default async function ProductPage({ params }: Params) {
         </div>
       </section>
 
-      <nav aria-label="Product sections" className="sticky top-[72px] md:top-[80px] z-30 bg-white/95 border-y border-black/5">
-        <div className="max-w-[90rem] mx-auto px-6 md:px-12 flex gap-6 md:gap-10 overflow-x-auto hide-scrollbar">
-          {sections.map((s) => (
-            <a key={s.id} href={`#${s.id}`} className="py-4 text-xs font-bold uppercase tracking-widest text-secondary hover:text-primary whitespace-nowrap border-b-2 border-transparent hover:border-primary transition-colors">
-              {s.label}
-            </a>
-          ))}
-        </div>
-      </nav>
-
-      <div className="bg-white px-6 md:px-12">
-        <div className="max-w-[90rem] mx-auto divide-y divide-black/5">
-          {sections.some((s) => s.id === "overview") && (
-            <section id="overview" className="py-12 md:py-16 scroll-mt-36 grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <h2 className="lg:col-span-3 text-2xl font-medium tracking-tight text-primary">Overview</h2>
-              <div className="lg:col-span-9">
-                {product.desc && <p className="text-base md:text-lg text-secondary font-light leading-relaxed whitespace-pre-line mb-8">{product.desc}</p>}
-                {features.length > 0 && (
-                  <>
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-4">Key features</h3>
-                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
-                      {features.map((f) => (
-                        <li key={f} className="flex gap-3 text-sm text-secondary leading-relaxed">
-                          <svg className="w-4 h-4 mt-0.5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
-                            <path d="M5 12l5 5L20 7" />
-                          </svg>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-              </div>
-            </section>
-          )}
-
-          {specs.length > 0 && (
-            <section id="specifications" className="py-12 md:py-16 scroll-mt-36 grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <div className="lg:col-span-3">
-                <h2 className="text-2xl font-medium tracking-tight text-primary mb-2">Specifications</h2>
-                <p className="text-xs text-secondary leading-relaxed">Values are nominal. Custom variants are confirmed on the quotation.</p>
-              </div>
-              <div className="lg:col-span-9 rounded-2xl border border-black/10 overflow-hidden">
-                <table className="w-full text-sm">
-                  <tbody>
-                    {specs.map(([k, v], i) => (
-                      <tr key={k} className={i % 2 ? "bg-white" : "bg-surfaceLight/60"}>
-                        <th scope="row" className="text-left font-medium text-secondary px-5 py-3 w-2/5 align-top">{k}</th>
-                        <td className="px-5 py-3 text-primary">{v}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          )}
-
-          {division && (
-            <section id="applications" className="py-12 md:py-16 scroll-mt-36 grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <h2 className="lg:col-span-3 text-2xl font-medium tracking-tight text-primary">Applications</h2>
-              <div className="lg:col-span-9 flex flex-wrap gap-3">
-                {division.applications.map((a) => (
-                  <span key={a} className="px-4 py-2 rounded-full border border-black/10 text-sm text-primary">{a}</span>
-                ))}
-              </div>
-            </section>
-          )}
-
-          <section id="downloads" className="py-12 md:py-16 scroll-mt-36 grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <h2 className="lg:col-span-3 text-2xl font-medium tracking-tight text-primary">Downloads</h2>
-            <div className="lg:col-span-9 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {[
-                ["Product datasheet", "PDF"],
-                ["Photometric file", "IES / LDT"],
-                ["Installation guide", "PDF"],
-              ].map(([t, f]) => (
-                <a
-                  key={t}
-                  href={`mailto:${settings.email}?subject=${encodeURIComponent(`${t} request: ${name} (${model})`)}`}
-                  className="group flex items-center justify-between gap-4 rounded-xl border border-black/10 p-4 hover:border-primary transition-colors"
-                >
-                  <span>
-                    <span className="block text-sm font-medium text-primary">{t}</span>
-                    <span className="block text-[11px] text-secondary">{f} · on request</span>
-                  </span>
-                  <Download size={18} className="text-secondary group-hover:text-primary" />
-                </a>
-              ))}
-            </div>
-          </section>
-        </div>
-      </div>
+      <SectionTabs tabs={tabs} />
 
       {related.length > 0 && (
         <section className="py-16 md:py-24 px-6 md:px-12 bg-background">
