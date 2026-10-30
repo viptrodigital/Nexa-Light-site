@@ -1,0 +1,35 @@
+# One-off: copies the photos still served by the old site (nexalight.in) into
+# web/public so they keep working after the new app replaces the old site.
+name: Fetch old site media
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [".github/media-list.txt"]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download files
+        run: |
+          missing=0
+          while read -r path; do
+            [ -z "$path" ] && continue
+            mkdir -p "web/public/$(dirname "$path")"
+            if ! curl -fsSL --retry 3 -A "Mozilla/5.0" -o "web/public/$path" "https://nexalight.in/$path"; then
+              echo "::warning::missing $path"; missing=$((missing+1)); rm -f "web/public/$path"
+            fi
+          done < .github/media-list.txt
+          echo "missing=$missing"
+          du -sh web/public/uploads web/public/images web/public/assets || true
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ls web/public/uploads | wc -l
+          git add -A web/public 2>&1 | tail -3
+          git commit -q -m "Copy product photos and brand images from the old site" || echo "nothing to commit"
+          if ! out=$(git push 2>&1); then echo "::error::push failed: $(echo "$out" | tr '\n' ' ' | cut -c1-900)"; exit 1; fi
